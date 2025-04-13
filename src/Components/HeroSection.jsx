@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import gsap from "gsap"
@@ -6,6 +8,23 @@ const HeroSection = () => {
   const counterRef = useRef(null)
   const [activeCard, setActiveCard] = useState(0)
   const totalCards = 4
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detectar dispositivo móvel
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Verificar inicialmente
+    checkMobile()
+
+    // Adicionar listener para redimensionamento
+    window.addEventListener("resize", checkMobile)
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   // Cards data
   const cards = [
@@ -168,12 +187,13 @@ const HeroSection = () => {
               >
                 Mais de{" "}
                 <span
-                  ref={counterRef}
+                  className="inline-flex"
                   style={{
                     color: "#69abc3",
                   }}
                 >
-                  0
+                  <span ref={counterRef}>0</span>
+                  <span className="hidden md:inline">&nbsp;</span>
                 </span>{" "}
                 clientes ativos em todo o país.
               </motion.h1>
@@ -201,8 +221,9 @@ const HeroSection = () => {
                 </p>
               </motion.div>
 
-              <motion.button
-                className="px-8 py-4 rounded-full shadow-xl text-white font-semibold transition-all duration-300 flex items-center space-x-2 relative overflow-hidden group"
+              <motion.a
+                href="https://wa.me/+557181594454"
+                className="inline-flex px-8 py-4 rounded-full shadow-xl text-white font-semibold transition-all duration-300 items-center space-x-2 relative overflow-hidden group"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: 20 }}
@@ -211,7 +232,7 @@ const HeroSection = () => {
                 style={{
                   backgroundColor: "#69abc3",
                 }}
-              ><a href="https://wa.me/+557181594454">
+              >
                 {/* Efeito de hover */}
                 <span
                   className="absolute inset-0 w-full h-full transition-all duration-300 ease-out transform scale-0 group-hover:scale-100 rounded-full"
@@ -222,7 +243,7 @@ const HeroSection = () => {
                 <span className="relative z-10">Transforme sua marca</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                  className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1 ml-2"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -232,8 +253,7 @@ const HeroSection = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                </a>
-              </motion.button>
+              </motion.a>
             </motion.div>
           </div>
 
@@ -269,7 +289,7 @@ const HeroSection = () => {
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2506_1_-removebg-preview-Q5TIvZiP5iMVxn7tBKpgKQ1vNjPaM1.png"
                 alt="Nicole - CEO da Publi X"
                 className="w-auto h-auto max-h-[500px] object-contain"
-                style={{ minHeight: "450px" }}
+                style={{ minHeight: isMobile ? "350px" : "450px" }}
               />
             </motion.div>
 

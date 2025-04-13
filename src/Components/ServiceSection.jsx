@@ -35,12 +35,13 @@ const ServicesSection = () => {
   const primaryBlue = "#223e63"
   const secondaryBlue = "#69abc3"
 
-  // Dados dos serviços
+  // Dados dos serviços com descrição reduzida para Design no mobile
   const services = [
     {
       id: "social-media",
       title: "Social Media",
       description: "Gestão de redes sociais com estratégia, identidade e conteúdo que engaja de verdade.",
+      mobileDescription: "Gestão de redes sociais com estratégia, identidade e conteúdo que engaja de verdade.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +66,7 @@ const ServicesSection = () => {
       title: "Design",
       description:
         "Criação de identidade visual e peças gráficas inteligentes, que traduzem a essência da sua marca em cada detalhe.",
+      mobileDescription: "Criação de identidade visual e peças gráficas que traduzem a essência da sua marca.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -91,6 +93,7 @@ const ServicesSection = () => {
       id: "videomaker",
       title: "Videomaker",
       description: "Produções que contam histórias, geram conexão e elevam a imagem da sua marca.",
+      mobileDescription: "Produções que contam histórias, geram conexão e elevam a imagem da sua marca.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -115,6 +118,7 @@ const ServicesSection = () => {
       id: "copywriter",
       title: "Copywriter",
       description: "Textos com propósito, que despertam interesse, criam desejo e geram ação.",
+      mobileDescription: "Textos com propósito, que despertam interesse, criam desejo e geram ação.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -142,6 +146,7 @@ const ServicesSection = () => {
       id: "programacao",
       title: "Programação",
       description: "Sites e soluções digitais funcionais, responsivos e com a sua identidade.",
+      mobileDescription: "Sites e soluções digitais funcionais, responsivos e com a sua identidade.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -166,6 +171,7 @@ const ServicesSection = () => {
       id: "trafego",
       title: "Tráfego Pago",
       description: "Campanhas segmentadas que entregam resultados reais e colocam sua marca no radar certo.",
+      mobileDescription: "Campanhas segmentadas que entregam resultados reais e colocam sua marca no radar certo.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -190,6 +196,7 @@ const ServicesSection = () => {
       id: "fotografia",
       title: "Fotografia",
       description: "Imagens profissionais que capturam a alma do seu negócio com autenticidade e impacto.",
+      mobileDescription: "Imagens profissionais que capturam a alma do seu negócio com autenticidade e impacto.",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -257,8 +264,6 @@ const ServicesSection = () => {
       }
     }
   }
-
-  // Verificar se está em dispositivo móvel
 
   return (
     <section
@@ -358,7 +363,7 @@ const ServicesSection = () => {
               minHeight: "500px",
             }}
           >
-            {/* Service Title Indicator */}
+            {/* Service Title Indicator - apenas para desktop */}
             <div
               style={{
                 position: "absolute",
@@ -367,6 +372,7 @@ const ServicesSection = () => {
                 right: 0,
                 textAlign: "center",
                 zIndex: 10,
+                display: isMobile ? "none" : "block", // Oculta em dispositivos móveis
               }}
             >
               <div
@@ -704,9 +710,9 @@ const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
       {/* Layout para Mobile */}
       {isMobile ? (
         <div className="w-full flex flex-col items-center">
-          {/* Título */}
+          {/* Título - Agora aparece no topo sem bullet */}
           <h3
-            className="text-2xl font-bold mb-4"
+            className="text-2xl font-bold mb-4 text-center"
             style={{
               color: service.color,
             }}
@@ -714,7 +720,7 @@ const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
             {service.title}
           </h3>
 
-          {/* Descrição */}
+          {/* Descrição - Texto reduzido para o serviço de Design */}
           <div
             style={{
               padding: "1rem",
@@ -727,7 +733,7 @@ const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
               boxShadow: `0 10px 30px rgba(0, 0, 0, 0.05), 0 0 0 1px ${service.color}20`,
             }}
           >
-            <p className="text-base text-gray-700">{service.description}</p>
+            <p className="text-base text-gray-700">{service.mobileDescription || service.description}</p>
           </div>
 
           {/* Imagem (se existir) */}
