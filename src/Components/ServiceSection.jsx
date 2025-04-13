@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import videomaker from "../assets/videomaker.png"
 import copywriter from "../assets/copywriter.png"
-import socialmedia from '../assets/social.png'
+import socialmedia from "../assets/social.png"
 
 const ServicesSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -13,6 +13,23 @@ const ServicesSection = () => {
   const [startX, setStartX] = useState(0)
   const [hoveredService, setHoveredService] = useState(null)
   const carouselRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Detectar dispositivo móvel
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Verificar inicialmente
+    checkMobile()
+
+    // Adicionar listener para redimensionamento
+    window.addEventListener("resize", checkMobile)
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   // Cores do projeto
   const primaryBlue = "#223e63"
@@ -40,8 +57,7 @@ const ServicesSection = () => {
         </svg>
       ),
       color: primaryBlue,
-      image:
-        socialmedia,
+      image: socialmedia,
       imageAlt: "Nicole com metade do rosto escondido pelo celular",
     },
     {
@@ -242,6 +258,8 @@ const ServicesSection = () => {
     }
   }
 
+  // Verificar se está em dispositivo móvel
+
   return (
     <section
       id="serviços"
@@ -293,7 +311,7 @@ const ServicesSection = () => {
         ></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section header */}
         <div className="mb-16 text-center max-w-3xl mx-auto">
           <h2
@@ -311,7 +329,7 @@ const ServicesSection = () => {
         <div
           className="relative mb-20"
           style={{
-            minHeight: "450px",
+            minHeight: isMobile ? "600px" : "500px",
           }}
         >
           {/* Glassmorphism background panel */}
@@ -337,7 +355,7 @@ const ServicesSection = () => {
             onMouseUp={handleDragEnd}
             onMouseLeave={(e) => isDragging && handleDragEnd(e)}
             style={{
-              minHeight: "450px",
+              minHeight: "500px",
             }}
           >
             {/* Service Title Indicator */}
@@ -381,7 +399,8 @@ const ServicesSection = () => {
             <div
               style={{
                 position: "relative",
-                height: "400px",
+                height: "auto",
+                minHeight: isMobile ? "550px" : "450px",
                 margin: "0 auto",
                 maxWidth: "1280px",
               }}
@@ -426,6 +445,7 @@ const ServicesSection = () => {
                 padding: "0 1rem",
                 marginTop: "-1.5rem",
                 pointerEvents: "none",
+                zIndex: 20,
               }}
             >
               <motion.button
@@ -508,6 +528,7 @@ const ServicesSection = () => {
                 bottom: "1.5rem",
                 left: 0,
                 right: 0,
+                zIndex: 20,
               }}
             >
               <div
@@ -617,29 +638,29 @@ const ServicesSection = () => {
               <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
                 Vamos criar uma estratégia personalizada que combine os serviços ideais para o seu negócio.
               </p>
-              <a target="_blank" href="https://wa.me/+557181594454">
-              <motion.button
-                className="px-8 py-4 rounded-full shadow-xl text-white font-semibold transition-all duration-300 flex items-center space-x-2 relative overflow-hidden group mx-auto"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                  background: "linear-gradient(135deg, #223e63, #69abc3)",
-                }}
-              >
-                <span className="relative z-10">Solicite um orçamento</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+              <a target="_blank" href="https://wa.me/+557181594454" className="inline-block" rel="noreferrer">
+                <motion.button
+                  className="px-8 py-4 rounded-full shadow-xl text-white font-semibold transition-all duration-300 flex items-center space-x-2 relative overflow-hidden group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    background: "linear-gradient(135deg, #223e63, #69abc3)",
+                  }}
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </motion.button>
+                  <span className="relative z-10">Solicite um orçamento</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:translate-x-1 ml-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </motion.button>
               </a>
             </div>
           </div>
@@ -651,6 +672,24 @@ const ServicesSection = () => {
 
 // Componente de cartão de serviço
 const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
+  // Verificar se está em dispositivo móvel
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Verificar inicialmente
+    checkMobile()
+
+    // Adicionar listener para redimensionamento
+    window.addEventListener("resize", checkMobile)
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
   return (
     <div
       className="w-full h-full flex flex-col md:flex-row items-center justify-center p-4 md:p-8"
@@ -662,134 +701,202 @@ const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
         transition: "opacity 0.5s, transform 0.5s",
       }}
     >
-      {/* Imagem (se existir) */}
-      {service.image && (
-        <div
-          className="w-full md:w-1/2 mb-6 md:mb-0 md:pr-8"
-          style={{
-            opacity: 1,
-            transform: "translateX(0px)",
-            transition: "opacity 0.5s, transform 0.5s",
-          }}
-        >
-          <div className="relative overflow-hidden rounded-2xl shadow-xl">
-            {/* Logo PX no canto superior direito - removido para programação */}
-            {service.id !== "programacao" && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "1rem",
-                  right: "1rem",
-                  zIndex: 10,
-                }}
-              >
-                <div
-                  style={{
-                    width: "3rem",
-                    height: "3rem",
-                    borderRadius: "0.5rem",
-                    overflow: "hidden",
-                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                  }}
-                >
+      {/* Layout para Mobile */}
+      {isMobile ? (
+        <div className="w-full flex flex-col items-center">
+          {/* Título */}
+          <h3
+            className="text-2xl font-bold mb-4"
+            style={{
+              color: service.color,
+            }}
+          >
+            {service.title}
+          </h3>
+
+          {/* Descrição */}
+          <div
+            style={{
+              padding: "1rem",
+              borderRadius: "0.75rem",
+              marginBottom: "1.5rem",
+              width: "100%",
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              backdropFilter: "blur(10px)",
+              border: `1px solid ${service.color}30`,
+              boxShadow: `0 10px 30px rgba(0, 0, 0, 0.05), 0 0 0 1px ${service.color}20`,
+            }}
+          >
+            <p className="text-base text-gray-700">{service.description}</p>
+          </div>
+
+          {/* Imagem (se existir) */}
+          {service.image && (
+            <div
+              className="w-full"
+              style={{
+                opacity: 1,
+              }}
+            >
+              <div className="relative overflow-hidden rounded-2xl shadow-xl">
+                <div className="aspect-w-4 aspect-h-3">
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-4Mfhy7L0NLkUKYPW8FqRBPR98iLrGK.png"
-                    alt="Logo Publi X"
+                    src={service.image || "/placeholder.svg"}
+                    alt={service.imageAlt}
+                    className="w-full h-full object-cover"
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
+                      objectPosition:
+                        service.id === "videomaker"
+                          ? "center 15%"
+                          : service.id === "copywriter"
+                            ? "center 15%"
+                            : service.id === "trafego"
+                              ? "center 10%"
+                              : service.id === "fotografia"
+                                ? "center 20%"
+                                : service.id === "design"
+                                  ? "center 30%"
+                                  : "center",
                     }}
                   />
                 </div>
               </div>
-            )}
-
-            <img
-              src={service.image || "/placeholder.svg"}
-              alt={service.imageAlt}
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Layout para Desktop - mantém o original */
+        <>
+          {/* Imagem (se existir) */}
+          {service.image && (
+            <div
+              className="w-full md:w-1/2 mb-6 md:mb-0 md:pr-8"
               style={{
-                width: "100%",
-                height: "auto",
-                objectFit: "cover",
-                maxHeight: "400px",
-                objectPosition:
-                  service.id === "videomaker"
-                    ? "center 20%"
-                    : service.id === "copywriter"
-                      ? "center 20%"
-                      : service.id === "trafego"
-                        ? "center 20%"
-                        : service.id === "design"
-                          ? "center 30%"
-                          : service.id === "fotografia"
-                            ? "center 40%" // Alterado de "center" para "center 40%" para mostrar mais da parte superior
-                            : "center",
-                transition: "transform 0.5s",
-                transform: isHovered ? "scale(1.05)" : "scale(1)",
+                opacity: 1,
+                transform: "translateX(0px)",
+                transition: "opacity 0.5s, transform 0.5s",
               }}
-            />
+            >
+              <div className="relative overflow-hidden rounded-2xl shadow-xl">
+                {/* Logo PX no canto superior direito - removido para programação */}
+                {service.id !== "programacao" && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "1rem",
+                      right: "1rem",
+                      zIndex: 10,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "3rem",
+                        height: "3rem",
+                        borderRadius: "0.5rem",
+                        overflow: "hidden",
+                        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                      }}
+                    >
+                      <img
+                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-4Mfhy7L0NLkUKYPW8FqRBPR98iLrGK.png"
+                        alt="Logo Publi X"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="aspect-w-16 aspect-h-9 md:aspect-auto">
+                  <img
+                    src={service.image || "/placeholder.svg"}
+                    alt={service.imageAlt}
+                    className="w-full h-full object-cover"
+                    style={{
+                      maxHeight: "350px",
+                      objectPosition:
+                        service.id === "videomaker"
+                          ? "center 15%"
+                          : service.id === "copywriter"
+                            ? "center 15%"
+                            : service.id === "trafego"
+                              ? "center 10%" // Ajustado para mostrar melhor o rosto
+                              : service.id === "fotografia"
+                                ? "center 20%" // Ajustado para mostrar melhor o rosto
+                                : service.id === "design"
+                                  ? "center 30%"
+                                  : "center",
+                      transition: "transform 0.5s",
+                      transform: isHovered ? "scale(1.05)" : "scale(1)",
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Conteúdo */}
+          <div
+            className={`w-full ${service.image ? "md:w-1/2" : ""} flex flex-col items-center md:items-start text-center md:text-left mt-6 md:mt-0`}
+            style={{
+              opacity: 1,
+              transform: service.image ? "translateX(0px)" : "translateY(0px)",
+              transition: "opacity 0.5s, transform 0.5s",
+            }}
+          >
+            <div
+              style={{
+                width: "5rem",
+                height: "5rem",
+                borderRadius: "1rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "1.5rem",
+                transition: "all 0.3s",
+                backgroundColor: `${service.color}15`,
+                color: service.color,
+                border: `1px solid ${service.color}30`,
+                transform: isHovered ? "scale(1.1)" : "scale(1)",
+                boxShadow: isHovered ? `0 10px 25px -5px ${service.color}40` : "none",
+              }}
+            >
+              <div>{service.icon}</div>
+            </div>
+
+            <h3
+              className="text-2xl md:text-3xl font-bold mb-4"
+              style={{
+                color: isHovered ? service.color : "#223e63",
+                transition: "color 0.3s",
+              }}
+            >
+              {service.title}
+            </h3>
+
+            <div
+              style={{
+                padding: "1.5rem",
+                borderRadius: "0.75rem",
+                marginBottom: "1.5rem",
+                width: "100%",
+                backgroundColor: isHovered ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.7)",
+                backdropFilter: "blur(10px)",
+                border: `1px solid ${isHovered ? service.color + "30" : "rgba(255, 255, 255, 0.5)"}`,
+                boxShadow: isHovered
+                  ? `0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px ${service.color}20, 0 0 20px ${service.color}20`
+                  : "0 10px 30px rgba(0, 0, 0, 0.05)",
+                transition: "all 0.3s",
+              }}
+            >
+              <p className="text-lg text-gray-700">{service.description}</p>
+            </div>
           </div>
-        </div>
+        </>
       )}
-
-      {/* Conteúdo */}
-      <div
-        className={`w-full ${service.image ? "md:w-1/2" : ""} flex flex-col items-center md:items-start text-center md:text-left`}
-        style={{
-          opacity: 1,
-          transform: service.image ? "translateX(0px)" : "translateY(0px)",
-          transition: "opacity 0.5s, transform 0.5s",
-        }}
-      >
-        <div
-          style={{
-            width: "5rem",
-            height: "5rem",
-            borderRadius: "1rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: "1.5rem",
-            transition: "all 0.3s",
-            backgroundColor: `${service.color}15`,
-            color: service.color,
-            border: `1px solid ${service.color}30`,
-            transform: isHovered ? "scale(1.1)" : "scale(1)",
-            boxShadow: isHovered ? `0 10px 25px -5px ${service.color}40` : "none",
-          }}
-        >
-          <div>{service.icon}</div>
-        </div>
-
-        <h3
-          className="text-3xl font-bold mb-4"
-          style={{
-            color: isHovered ? service.color : "#223e63",
-            transition: "color 0.3s",
-          }}
-        >
-          {service.title}
-        </h3>
-
-        <div
-          style={{
-            padding: "1.5rem",
-            borderRadius: "0.75rem",
-            marginBottom: "1.5rem",
-            maxWidth: "32rem",
-            backgroundColor: isHovered ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.7)",
-            backdropFilter: "blur(10px)",
-            border: `1px solid ${isHovered ? service.color + "30" : "rgba(255, 255, 255, 0.5)"}`,
-            boxShadow: isHovered
-              ? `0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px ${service.color}20, 0 0 20px ${service.color}20`
-              : "0 10px 30px rgba(0, 0, 0, 0.05)",
-            transition: "all 0.3s",
-          }}
-        >
-          <p className="text-lg text-gray-700">{service.description}</p>
-        </div>
-      </div>
     </div>
   )
 }
