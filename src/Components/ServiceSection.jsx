@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import videomaker from "../assets/videomaker.png"
 import copywriter from "../assets/copywriter.png"
 import socialmedia from "../assets/social.png"
-
+import trafego from '../assets/trafego.jpg'
+import design from '../assets/design.jpg'
 const ServicesSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
@@ -13,12 +14,15 @@ const ServicesSection = () => {
   const [startX, setStartX] = useState(0)
   const [hoveredService, setHoveredService] = useState(null)
   const carouselRef = useRef(null)
+  // Verificar se está em dispositivo móvel e armazenar a largura da janela
   const [isMobile, setIsMobile] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 0)
 
-  // Detectar dispositivo móvel
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      const width = window.innerWidth
+      setWindowWidth(width)
+      setIsMobile(width < 1024) // Mantendo o breakpoint para incluir tablets
     }
 
     // Verificar inicialmente
@@ -86,7 +90,7 @@ const ServicesSection = () => {
         </svg>
       ),
       color: secondaryBlue,
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-k3pCUMxMKT5nHcWiWTziaoqcHRuoXG.png",
+      image: design,
       imageAlt: "Nicole sorrindo e falando ao telefone enquanto segura um tablet",
     },
     {
@@ -189,7 +193,7 @@ const ServicesSection = () => {
         </svg>
       ),
       color: secondaryBlue,
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-JuferE6EC53IS1TojknNmu0xIOnN9H.png",
+      image: trafego,
       imageAlt: "Nicole sorrindo e segurando um tablet, vestindo roupa branca",
     },
     {
@@ -334,7 +338,7 @@ const ServicesSection = () => {
         <div
           className="relative mb-20"
           style={{
-            minHeight: isMobile ? "600px" : "500px",
+            minHeight: isMobile ? "700px" : "500px", // Aumentando a altura para tablets e mobile
           }}
         >
           {/* Glassmorphism background panel */}
@@ -406,7 +410,7 @@ const ServicesSection = () => {
               style={{
                 position: "relative",
                 height: "auto",
-                minHeight: isMobile ? "550px" : "450px",
+                minHeight: isMobile ? "650px" : "450px", // Aumentando a altura para tablets e mobile
                 margin: "0 auto",
                 maxWidth: "1280px",
               }}
@@ -680,10 +684,13 @@ const ServicesSection = () => {
 const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
   // Verificar se está em dispositivo móvel
   const [isMobile, setIsMobile] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 0)
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      const width = window.innerWidth
+      setWindowWidth(width)
+      setIsMobile(width < 1024) // Mantendo o breakpoint para incluir tablets
     }
 
     // Verificar inicialmente
@@ -707,14 +714,18 @@ const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
         transition: "opacity 0.5s, transform 0.5s",
       }}
     >
-      {/* Layout para Mobile */}
+      {/* Layout para Mobile e Tablet */}
       {isMobile ? (
         <div className="w-full flex flex-col items-center">
-          {/* Título - Agora aparece no topo sem bullet */}
+          {/* Título - Agora com destaque e visibilidade em tablets */}
           <h3
-            className="text-2xl font-bold mb-4 text-center"
+            className="text-2xl font-bold mb-6 text-center px-4 w-full"
             style={{
               color: service.color,
+              wordBreak: "break-word",
+              overflowWrap: "break-word",
+              fontSize: window.innerWidth >= 768 && window.innerWidth < 1024 ? "28px" : "24px", // Maior em tablets
+              marginTop: window.innerWidth >= 768 && window.innerWidth < 1024 ? "1rem" : "0", // Espaço extra no topo para tablets
             }}
           >
             {service.title}
@@ -736,12 +747,13 @@ const ServiceCard = ({ service, isHovered, onHover, onLeave }) => {
             <p className="text-base text-gray-700">{service.mobileDescription || service.description}</p>
           </div>
 
-          {/* Imagem (se existir) */}
+          {/* Imagem (se existir) - Reduzida em tamanho para tablets */}
           {service.image && (
             <div
-              className="w-full"
+              className="w-full mx-auto"
               style={{
                 opacity: 1,
+                maxWidth: window.innerWidth >= 768 && window.innerWidth < 1024 ? "350px" : "450px", // Menor em tablets
               }}
             >
               <div className="relative overflow-hidden rounded-2xl shadow-xl">
