@@ -226,7 +226,7 @@ const CTASection = () => {
   }, [])
 
   return (
-    <section className="relative py-24 overflow-hidden bg-white">
+    <section id="contato" className="relative py-24 overflow-hidden bg-white">
       {/* Background elements */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {/* Subtle grid pattern */}
